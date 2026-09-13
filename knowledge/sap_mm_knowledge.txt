@@ -1,0 +1,1484 @@
+SAP MM A-Z KNOWLEDGE BASE
+
+==================================================
+1. SAP MM BASICS
+==================================================
+
+SAP = Systems, Applications and Products in Data Processing.
+
+MM = Materials Management.
+
+SAP MM manages procurement, purchasing, inventory, material master data,
+goods movements, invoice verification and material-related processes.
+
+Main SAP MM areas:
+- Material Master
+- Vendor / Business Partner
+- Purchasing
+- Purchase Requisition
+- Request for Quotation
+- Quotation
+- Purchase Order
+- Goods Receipt
+- Goods Issue
+- Transfer Posting
+- Inventory Management
+- Invoice Verification
+- Source List
+- Purchasing Info Record
+- Outline Agreement
+- Scheduling Agreement
+- Stock Management
+- Valuation
+- Physical Inventory
+- MRP
+- Subcontracting
+- Consignment
+- Stock Transport Order
+
+==================================================
+2. ORGANIZATIONAL STRUCTURE
+==================================================
+
+Important organizational elements:
+
+Client:
+Highest organizational level in SAP.
+
+Company Code:
+Legal accounting entity.
+
+Plant:
+Location where materials are produced, stored or used.
+
+Storage Location:
+Subdivision of a plant used to manage stock.
+
+Purchasing Organization:
+Responsible for purchasing activities.
+
+Purchasing Group:
+Buyer or group of buyers responsible for purchasing.
+
+Typical structure:
+
+Client
+  |
+Company Code
+  |
+Plant
+  |
+Storage Location
+
+Purchasing Organization
+  |
+Purchasing Group
+
+==================================================
+3. MATERIAL MASTER
+==================================================
+
+Material Master contains important information about a material.
+
+Important transactions:
+MM01 - Create Material
+MM02 - Change Material
+MM03 - Display Material
+MM06 - Flag Material for Deletion
+
+Common Material Master views:
+- Basic Data
+- Purchasing
+- MRP
+- Accounting
+- Plant/Storage
+- Sales
+- Quality Management
+
+Common material types:
+ROH - Raw Material
+HALB - Semi-Finished Material
+FERT - Finished Product
+HAWA - Trading Goods
+VERP - Packaging Material
+
+Material number can be internal or external depending on configuration.
+
+Common issue:
+Material cannot be created.
+
+Possible causes:
+- Required organizational level not entered
+- Material type configuration issue
+- Number range issue
+- Required field missing
+- Authorization problem
+
+Troubleshooting:
+Check the material type, industry sector, organizational levels,
+mandatory fields and user authorization.
+
+==================================================
+4. BUSINESS PARTNER / VENDOR
+==================================================
+
+In SAP S/4HANA, Business Partner is used for supplier master data.
+
+Transaction:
+BP - Maintain Business Partner
+
+Important supplier roles can include:
+- General Business Partner data
+- Supplier accounting data
+- Supplier purchasing data
+
+Common issue:
+Supplier cannot be used in a Purchase Order.
+
+Possible causes:
+- Supplier purchasing organization data missing
+- Company code data missing
+- Supplier blocked
+- Partner/business partner role missing
+- Authorization issue
+
+==================================================
+5. PURCHASE REQUISITION
+==================================================
+
+Purchase Requisition (PR) is an internal request to procure materials
+or services.
+
+Transaction codes:
+ME51N - Create PR
+ME52N - Change PR
+ME53N - Display PR
+
+Typical process:
+
+Requirement
+  -> Purchase Requisition
+  -> Approval
+  -> Source Determination
+  -> Purchase Order
+
+PR can contain:
+- Material
+- Quantity
+- Delivery date
+- Plant
+- Storage location
+- Purchasing group
+- Account assignment
+
+Common PR errors:
+- Material not valid
+- Account assignment missing
+- Delivery date issue
+- Release strategy issue
+- Source determination issue
+
+==================================================
+6. REQUEST FOR QUOTATION (RFQ)
+==================================================
+
+RFQ is a request sent to vendors asking them to provide prices and
+commercial conditions.
+
+Transactions:
+ME41 - Create RFQ
+ME42 - Change RFQ
+ME43 - Display RFQ
+ME47 - Maintain Quotation
+ME49 - Price Comparison
+
+Typical process:
+
+PR
+ -> RFQ
+ -> Vendor Quotation
+ -> Price Comparison
+ -> Vendor Selection
+ -> Purchase Order
+
+==================================================
+7. PURCHASE ORDER
+==================================================
+
+Purchase Order (PO) is a formal purchasing document sent to a supplier.
+
+Transactions:
+ME21N - Create PO
+ME22N - Change PO
+ME23N - Display PO
+
+Common PO types:
+- Standard PO
+- Subcontracting PO
+- Consignment PO
+- Stock Transport Order
+
+Important PO data:
+- Vendor
+- Material
+- Quantity
+- Price
+- Plant
+- Delivery date
+- Purchasing organization
+- Purchasing group
+- Account assignment
+- Tax information
+
+==================================================
+8. GOODS RECEIPT
+==================================================
+
+Goods Receipt means receiving material into the company.
+
+Common transaction:
+MIGO
+
+Common movement types:
+
+101 - Goods Receipt for Purchase Order
+102 - Reversal of 101
+122 - Return Delivery to Vendor
+103 - GR blocked stock
+105 - Release blocked stock
+
+Typical process:
+
+Purchase Order
+ -> Goods Receipt
+ -> Stock Updated
+ -> Material Document Created
+
+Common GR error:
+"Deficit of stock" or quantity-related error.
+
+Possible causes:
+- Incorrect quantity
+- Wrong movement type
+- Previous stock movement missing
+- Batch/serial information missing
+
+==================================================
+9. GOODS ISSUE
+==================================================
+
+Goods Issue removes stock from inventory for consumption, production,
+sales or other purposes.
+
+Transaction:
+MIGO
+
+Common movement types:
+
+201 - Goods Issue to Cost Center
+261 - Goods Issue to Production Order
+601 - Goods Issue for Delivery
+551 - Scrapping
+
+Always verify movement type before posting.
+
+==================================================
+10. TRANSFER POSTING
+==================================================
+
+Transfer Posting changes stock status or location.
+
+Common movement types:
+
+301 - Plant to Plant Transfer
+311 - Storage Location to Storage Location
+321 - Quality Inspection to Unrestricted
+343 - Blocked to Unrestricted
+
+Transaction:
+MIGO
+
+==================================================
+11. PURCHASE ORDER PROCESS
+==================================================
+
+Standard Procure-to-Pay process:
+
+Requirement
+ -> PR
+ -> RFQ
+ -> Quotation
+ -> Vendor Selection
+ -> PO
+ -> Goods Receipt
+ -> Invoice Verification
+ -> Payment
+
+Main documents:
+PR -> PO -> Material Document -> Invoice Document -> Accounting Document
+
+==================================================
+12. INVOICE VERIFICATION
+==================================================
+
+Invoice Verification checks supplier invoice against purchasing and
+goods receipt information.
+
+Transaction:
+MIRO - Enter Incoming Invoice
+MIR4 - Display Invoice Document
+MR8M - Cancel Invoice
+
+Three-way match:
+
+Purchase Order
+     |
+Goods Receipt
+     |
+Invoice
+
+Important checks:
+- Quantity
+- Price
+- Tax
+- Vendor
+- Purchase Order
+- Goods Receipt
+
+Common MIRO error:
+Invoice cannot be posted.
+
+Possible causes:
+- Quantity mismatch
+- Price mismatch
+- Tax code issue
+- GR not posted
+- PO issue
+- Account determination issue
+
+==================================================
+13. SOURCE LIST
+==================================================
+
+Source List defines valid sources of supply for a material.
+
+Transaction:
+ME01 - Maintain Source List
+ME03 - Display Source List
+
+Important concepts:
+- Fixed source
+- Blocked source
+- MRP relevance
+- Validity period
+
+Common issue:
+Source not determined automatically.
+
+Check:
+- Source List
+- Validity dates
+- Purchasing Info Record
+- Vendor status
+- Material/plant data
+
+==================================================
+14. PURCHASING INFO RECORD
+==================================================
+
+Purchasing Info Record stores purchasing information for a
+material-vendor combination.
+
+Transactions:
+ME11 - Create Info Record
+ME12 - Change Info Record
+ME13 - Display Info Record
+
+Can contain:
+- Vendor
+- Material
+- Purchasing organization
+- Plant
+- Price
+- Delivery time
+- Vendor material number
+
+==================================================
+15. OUTLINE AGREEMENT
+==================================================
+
+Outline Agreement is a long-term purchasing agreement.
+
+Main types:
+- Contract
+- Scheduling Agreement
+
+Contract transactions:
+ME31K - Create Contract
+ME32K - Change Contract
+ME33K - Display Contract
+
+==================================================
+16. SCHEDULING AGREEMENT
+==================================================
+
+Scheduling Agreement is a long-term agreement with scheduled delivery
+dates and quantities.
+
+Transactions:
+ME31L - Create Scheduling Agreement
+ME32L - Change Scheduling Agreement
+ME33L - Display Scheduling Agreement
+
+Scheduling lines contain:
+- Delivery date
+- Quantity
+
+==================================================
+17. INVENTORY MANAGEMENT
+==================================================
+
+Inventory Management tracks stock quantities and movements.
+
+Important stock types:
+
+Unrestricted Stock:
+Available for normal use.
+
+Quality Inspection Stock:
+Under quality inspection.
+
+Blocked Stock:
+Not normally available for consumption.
+
+Common transaction:
+MMBE - Stock Overview
+
+MMBE can be used to check stock by:
+- Material
+- Plant
+- Storage location
+- Stock type
+
+==================================================
+18. PHYSICAL INVENTORY
+==================================================
+
+Physical Inventory compares physical stock with SAP book stock.
+
+Important transactions:
+
+MI01 - Create Physical Inventory Document
+MI02 - Change Physical Inventory Document
+MI03 - Display Physical Inventory Document
+MI04 - Enter Count
+MI07 - Post Inventory Difference
+
+Process:
+
+Create PI Document
+ -> Physical Count
+ -> Enter Count
+ -> Analyze Difference
+ -> Post Difference
+
+==================================================
+19. MOVEMENT TYPES
+==================================================
+
+Movement Type controls the type of material movement.
+
+Important movement types:
+
+101 - GR for PO
+102 - Reversal of GR
+103 - GR to blocked stock
+105 - Release blocked stock
+122 - Return to vendor
+201 - GI to cost center
+261 - GI to production order
+301 - Plant to plant transfer
+311 - Storage location transfer
+321 - Quality to unrestricted
+343 - Blocked to unrestricted
+551 - Scrapping
+601 - GI for delivery
+
+Always confirm movement type in the specific business scenario before
+posting because configuration and process requirements can vary.
+
+==================================================
+20. MATERIAL VALUATION
+==================================================
+
+Material valuation determines the value of stock.
+
+Common valuation methods:
+- Standard Price
+- Moving Average Price
+
+Important transaction:
+MM03 - Display Accounting View
+
+Common issue:
+Unexpected material price.
+
+Possible causes:
+- Price control
+- Goods movement
+- Invoice difference
+- Configuration
+- Material ledger settings
+
+==================================================
+21. AUTOMATIC ACCOUNT DETERMINATION
+==================================================
+
+Automatic Account Determination determines which G/L accounts are
+posted during inventory transactions.
+
+Important configuration transaction:
+OBYC
+
+Important concepts:
+- Valuation Class
+- Transaction Key
+- Chart of Accounts
+- Valuation Area
+
+Common transaction keys:
+BSX - Inventory Posting
+WRX - GR/IR Clearing
+GBB - Offsetting Entry for Inventory Posting
+PRD - Price Difference
+
+Common error:
+"Account determination for entry ... not possible."
+
+Troubleshooting:
+1. Check material valuation class.
+2. Check valuation area.
+3. Check movement type.
+4. Check OBYC configuration.
+5. Check relevant transaction key.
+6. Check G/L account assignment.
+7. Verify chart of accounts.
+
+Do not change production configuration without proper authorization
+and testing.
+
+==================================================
+22. GR/IR CLEARING
+==================================================
+
+GR/IR is a clearing account used between Goods Receipt and Invoice
+Receipt.
+
+GR:
+Inventory / GR-IR postings may occur.
+
+IR:
+GR/IR is cleared against supplier liability depending on configuration.
+
+Common issue:
+GR/IR balance remains open.
+
+Possible causes:
+- GR quantity differs from invoice quantity
+- Invoice not received
+- Incorrect posting
+- Reversal
+- Price difference
+
+==================================================
+23. RELEASE STRATEGY
+==================================================
+
+Release strategy controls approval of purchasing documents.
+
+Can be used for:
+- Purchase Requisition
+- Purchase Order
+
+Common issues:
+- Document not released
+- Release code unavailable
+- Release strategy not triggered
+- Wrong classification values
+
+Troubleshooting:
+Check document values, release characteristics, classification,
+release prerequisites and workflow/configuration.
+
+S/4HANA implementations may use flexible workflow instead of
+traditional release strategy.
+
+==================================================
+24. MRP BASICS
+==================================================
+
+MRP = Material Requirements Planning.
+
+MRP helps determine material requirements and procurement proposals.
+
+Important transactions:
+
+MD01N - MRP Live
+MD04 - Stock/Requirements List
+MM03 - Material Master
+
+MRP can create:
+- Purchase Requisition
+- Planned Order
+depending on configuration and procurement type.
+
+Common MD04 issue:
+Expected procurement proposal is not generated.
+
+Check:
+- MRP type
+- MRP controller
+- Lot size
+- Procurement type
+- Safety stock
+- Lead time
+- Existing stock
+- Existing requirements
+- Planning file / MRP data
+
+==================================================
+25. BATCH MANAGEMENT
+==================================================
+
+Batch management tracks materials by batch.
+
+Important transactions:
+MSC1N - Create Batch
+MSC2N - Change Batch
+MSC3N - Display Batch
+
+Common issues:
+- Batch required but not entered
+- Batch determination failure
+- Expired batch
+- Batch not available in plant/storage location
+
+==================================================
+26. SUBCONTRACTING
+==================================================
+
+In subcontracting, a company sends components to an external vendor
+who performs processing and returns the finished/semi-finished
+material.
+
+Typical process:
+
+Subcontracting PO
+ -> Components provided to vendor
+ -> Vendor processes material
+ -> Finished material received
+
+Common movement type:
+541 - Transfer components to vendor stock
+
+101 - Goods receipt for PO
+
+Important transaction:
+ME21N - Create PO
+
+Item category:
+L - Subcontracting
+
+==================================================
+27. CONSIGNMENT
+==================================================
+
+In vendor consignment, material is stored at the company's location
+but remains vendor-owned until consumed.
+
+Common item category:
+K - Consignment
+
+Common movement:
+101 - Depending on process/configuration for receipt
+
+Liability is generally created when consignment stock is consumed,
+subject to configuration.
+
+==================================================
+28. STOCK TRANSPORT ORDER
+==================================================
+
+STO = Stock Transport Order.
+
+Used to transfer material between plants.
+
+Typical process:
+
+STO
+ -> Delivery
+ -> Goods Issue
+ -> Goods Receipt
+
+Common movement types may include:
+351 - GI for STO
+101 - GR for STO
+
+Exact process depends on whether the STO is one-step, two-step,
+delivery-based, or configured differently.
+
+==================================================
+29. IMPORTANT SAP MM T-CODES
+==================================================
+
+Material:
+MM01 - Create Material
+MM02 - Change Material
+MM03 - Display Material
+MM06 - Flag Material for Deletion
+
+Business Partner:
+BP - Business Partner
+
+Purchase Requisition:
+ME51N - Create PR
+ME52N - Change PR
+ME53N - Display PR
+
+RFQ:
+ME41 - Create RFQ
+ME42 - Change RFQ
+ME43 - Display RFQ
+ME47 - Maintain Quotation
+ME49 - Price Comparison
+
+Purchase Order:
+ME21N - Create PO
+ME22N - Change PO
+ME23N - Display PO
+
+Goods Movement:
+MIGO - Goods Movement
+
+Invoice:
+MIRO - Create Invoice
+MIR4 - Display Invoice
+MR8M - Cancel Invoice
+
+Stock:
+MMBE - Stock Overview
+MB51 - Material Document List
+MB03 - Display Material Document
+
+Source List:
+ME01 - Maintain Source List
+ME03 - Display Source List
+
+Info Record:
+ME11 - Create Info Record
+ME12 - Change Info Record
+ME13 - Display Info Record
+
+Contract:
+ME31K - Create Contract
+ME32K - Change Contract
+ME33K - Display Contract
+
+Scheduling Agreement:
+ME31L - Create Scheduling Agreement
+ME32L - Change Scheduling Agreement
+ME33L - Display Scheduling Agreement
+
+Physical Inventory:
+MI01 - Create PI Document
+MI04 - Enter Count
+MI07 - Post Difference
+
+Configuration:
+OBYC - Automatic Account Determination
+
+MRP:
+MD01N - MRP Live
+MD04 - Stock/Requirements List
+
+Batch:
+MSC1N - Create Batch
+MSC2N - Change Batch
+MSC3N - Display Batch
+
+==================================================
+30. COMMON SAP MM ERRORS - TROUBLESHOOTING
+==================================================
+
+ERROR: Account determination not possible.
+
+Likely causes:
+- Missing OBYC configuration
+- Missing G/L account
+- Wrong valuation class
+- Incorrect transaction key
+
+Check:
+OBYC -> valuation grouping -> transaction key -> G/L account.
+
+--------------------------------------------------
+
+ERROR: Material cannot be used in plant.
+
+Possible causes:
+- Material not extended to plant
+- Missing plant-specific view
+- Material status restriction
+
+Check:
+MM03 and verify plant-level views.
+
+--------------------------------------------------
+
+ERROR: Vendor/Supplier cannot be used in PO.
+
+Possible causes:
+- Missing purchasing organization data
+- Supplier blocked
+- BP role missing
+
+Check:
+BP and supplier purchasing data.
+
+--------------------------------------------------
+
+ERROR: Purchase Order cannot be created.
+
+Check:
+- Vendor
+- Purchasing organization
+- Purchasing group
+- Company code
+- Plant
+- Material
+- Account assignment
+- Required fields
+- Authorization
+
+--------------------------------------------------
+
+ERROR: Goods Receipt cannot be posted.
+
+Check:
+- PO status
+- Open PO quantity
+- Delivery date
+- Movement type
+- Material status
+- Batch/serial number
+- Storage location
+- Posting date
+- Authorization
+
+--------------------------------------------------
+
+ERROR: Invoice cannot be posted in MIRO.
+
+Check:
+- PO
+- GR
+- Quantity
+- Price
+- Tax code
+- Vendor
+- Invoice date
+- Posting date
+- Tolerance limits
+- GR/IR status
+
+--------------------------------------------------
+
+ERROR: Source determination not working.
+
+Check:
+- Source List
+- Info Record
+- Contract
+- Scheduling Agreement
+- Validity dates
+- Fixed source
+- Vendor status
+
+--------------------------------------------------
+
+ERROR: MRP does not create PR.
+
+Check:
+- MRP type
+- Procurement type
+- Material master MRP views
+- Lot size
+- Plant
+- Existing stock
+- Requirements
+- Planning settings
+
+--------------------------------------------------
+
+ERROR: Stock quantity is incorrect.
+
+Check:
+1. MMBE
+2. MB51
+3. Material documents
+4. Movement types
+5. Reversal documents
+6. Storage location
+7. Batch
+
+==================================================
+31. SAP MM REAL-TIME SCENARIO
+==================================================
+
+Example:
+
+Company needs 100 units of raw material.
+
+Step 1:
+User creates PR using ME51N.
+
+Step 2:
+Purchasing team checks requirement.
+
+Step 3:
+RFQ may be created using ME41.
+
+Step 4:
+Vendor quotation is received.
+
+Step 5:
+Best vendor is selected.
+
+Step 6:
+PO is created using ME21N.
+
+Step 7:
+Vendor delivers material.
+
+Step 8:
+Goods Receipt is posted using MIGO with appropriate movement type.
+
+Step 9:
+Stock is updated.
+
+Step 10:
+Vendor invoice is entered using MIRO.
+
+Step 11:
+Invoice is checked against PO and GR.
+
+Step 12:
+Accounting/payment process continues.
+
+==================================================
+32. SAP MM MASTER DATA VS TRANSACTION DATA
+==================================================
+
+Master Data:
+Relatively stable information used repeatedly.
+
+Examples:
+- Material Master
+- Supplier/Business Partner
+- Purchasing Info Record
+- Source List
+
+Transaction Data:
+Data created during business transactions.
+
+Examples:
+- PR
+- PO
+- Goods Receipt
+- Invoice
+- Material Document
+
+==================================================
+33. SAP MM DOCUMENT FLOW
+==================================================
+
+Typical procurement document flow:
+
+Purchase Requisition
+       |
+       v
+RFQ
+       |
+       v
+Quotation
+       |
+       v
+Purchase Order
+       |
+       v
+Goods Receipt
+       |
+       v
+Invoice Receipt
+       |
+       v
+Payment
+
+Not every business process uses every document.
+
+==================================================
+34. S/4HANA IMPORTANT POINTS
+==================================================
+
+SAP S/4HANA modernizes many traditional SAP processes.
+
+Important concepts:
+- Business Partner for customers/suppliers
+- Fiori applications
+- MRP Live
+- Flexible Workflow
+- Simplified data model
+- Embedded analytics
+- Material Ledger commonly used in S/4HANA
+
+Transaction availability and process design can vary by
+S/4HANA release and implementation.
+
+==================================================
+35. SAP MM TROUBLESHOOTING METHOD
+==================================================
+
+When an error occurs:
+
+STEP 1:
+Read the complete error message.
+
+STEP 2:
+Identify the transaction.
+
+STEP 3:
+Identify the document/material/vendor involved.
+
+STEP 4:
+Check master data.
+
+STEP 5:
+Check organizational data.
+
+STEP 6:
+Check configuration.
+
+STEP 7:
+Check previous document flow.
+
+STEP 8:
+Check authorization.
+
+STEP 9:
+Test the correction in a suitable non-production environment.
+
+STEP 10:
+Reprocess the transaction.
+
+Never blindly change configuration just because an error appears.
+
+==================================================
+36. SAP MM INTERVIEW QUICK QUESTIONS
+==================================================
+
+Q: What is SAP MM?
+A: SAP MM is the SAP module used for procurement and inventory/material
+management.
+
+Q: What is a Purchase Requisition?
+A: An internal request to procure material or service.
+
+Q: What is a Purchase Order?
+A: A formal purchasing document issued to a supplier.
+
+Q: What is RFQ?
+A: Request for Quotation sent to suppliers to obtain prices and terms.
+
+Q: What is Goods Receipt?
+A: Posting that records receipt of material into inventory.
+
+Q: What is Invoice Verification?
+A: Verification of supplier invoice against purchasing and receipt data.
+
+Q: What is Source List?
+A: It defines valid sources of supply for a material.
+
+Q: What is Movement Type?
+A: A three-digit code controlling the type of material movement.
+
+Q: What is OBYC?
+A: Configuration transaction for automatic account determination.
+
+Q: What is MIGO?
+A: Transaction used for goods movements.
+
+Q: What is MIRO?
+A: Transaction used to enter incoming invoices.
+
+Q: What is MMBE?
+A: Transaction used to display stock overview.
+
+==================================================
+37. IMPORTANT SAFETY / SYSTEM RULE
+==================================================
+
+SAP transaction codes and configuration steps can differ depending on
+SAP ECC/S/4HANA version, activated functionality, custom configuration,
+roles and authorizations.
+
+Before changing production data or configuration:
+- Confirm the requirement.
+- Check the error message.
+- Test in development/quality system.
+- Follow company change-management procedures.
+
+==================================================
+38. PRACTICAL SAP MM TROUBLESHOOTING
+==================================================
+
+Q: What should I check if MIGO gives an error?
+A: Check the material, plant, storage location, movement type, quantity,
+posting date, stock availability, batch/serial requirements, purchase order
+and user authorization. The exact error message should be checked before
+making configuration changes.
+
+Q: What should I check if MIRO gives an invoice error?
+A: Check the purchase order, goods receipt, invoice quantity, invoice amount,
+tax information, vendor/business partner, payment terms and invoice
+verification settings. Also check whether the invoice is blocked.
+
+Q: What should I check if a Purchase Order cannot be created?
+A: Check vendor/business partner, material, plant, purchasing organization,
+purchasing group, company code, document type, required master-data views,
+source determination and user authorization.
+
+Q: Why can a Purchase Order show an account assignment error?
+A: The account assignment category may require additional information such
+as cost center, internal order, asset or another account assignment object.
+Enter the required account assignment data and verify the related
+configuration.
+
+Q: What should I check when automatic account determination fails?
+A: Check the chart of accounts, valuation area, valuation class, movement
+type, transaction/event key and OBYC configuration. The exact error message
+should be analyzed before changing configuration.
+
+Q: What should I check when material stock is not visible in MMBE?
+A: Check the material number, plant, storage location, batch, stock type and
+whether the relevant goods movement was posted successfully.
+
+Q: What should I check when a material cannot be used in purchasing?
+A: Check whether the material master contains the required Purchasing view
+and organizational data such as plant. Also verify material status,
+purchasing data and authorization.
+
+Q: Why can Goods Receipt quantity differ from Purchase Order quantity?
+A: Partial delivery, over-delivery tolerance, under-delivery tolerance,
+delivery schedules or manual quantity entry can cause differences.
+Company configuration determines which differences are permitted.
+
+Q: What is an invoice block?
+A: An invoice block prevents or restricts invoice processing or payment when
+defined checks fail, such as quantity variance, price variance or other
+invoice verification conditions.
+
+Q: What should I check if a source is not determined for a material?
+A: Check the source list, purchasing info record, outline agreements,
+validity dates, source determination settings and whether the source is
+relevant for automatic determination.
+
+==================================================
+39. IMPORTANT SAP MM TRANSACTION CODES
+==================================================
+
+MM01 - Create Material
+MM02 - Change Material
+MM03 - Display Material
+
+BP - Maintain Business Partner in SAP S/4HANA
+
+ME51N - Create Purchase Requisition
+ME52N - Change Purchase Requisition
+ME53N - Display Purchase Requisition
+
+ME41 - Create RFQ
+ME42 - Change RFQ
+ME43 - Display RFQ
+
+ME21N - Create Purchase Order
+ME22N - Change Purchase Order
+ME23N - Display Purchase Order
+
+MIGO - Goods Movement
+MB51 - Material Document List
+MMBE - Stock Overview
+
+MIRO - Enter Incoming Invoice
+MIR4 - Display Invoice Document
+
+ME11 - Create Purchasing Info Record
+ME12 - Change Purchasing Info Record
+ME13 - Display Purchasing Info Record
+
+ME01 - Maintain Source List
+ME03 - Display Source List
+
+ME31K - Create Contract
+ME32K - Change Contract
+ME33K - Display Contract
+
+ME31L - Create Scheduling Agreement
+ME32L - Change Scheduling Agreement
+ME33L - Display Scheduling Agreement
+
+MRP-related transactions may include:
+MD04 - Stock/Requirements List
+MD01 / MD01N - MRP Run depending on SAP version and configuration
+
+Configuration transactions can vary by SAP version and project setup.
+Always verify the transaction in the target SAP system.
+
+==================================================
+40. MOVEMENT TYPES - PRACTICAL
+==================================================
+
+Movement type 101:
+Commonly used for Goods Receipt against a Purchase Order.
+
+Movement type 102:
+Commonly used to reverse a Goods Receipt posted with movement type 101.
+
+Movement type 261:
+Commonly used for Goods Issue to an order.
+
+Movement type 262:
+Commonly used to reverse movement type 261.
+
+Movement type 301:
+Commonly used for transfer posting of material from one plant to another,
+subject to system configuration.
+
+Movement type 311:
+Commonly used for storage-location-to-storage-location transfer within
+a plant.
+
+Movement type 551:
+Commonly used for scrapping unrestricted-use stock.
+
+Movement types control how SAP records and processes material movements.
+Exact behavior can depend on configuration and business process.
+
+==================================================
+41. SAP MM PROCUREMENT FLOW
+==================================================
+
+Typical procurement process:
+
+Purchase Requisition
+        ->
+Source Determination
+        ->
+RFQ / Quotation
+        ->
+Purchase Order
+        ->
+Goods Receipt
+        ->
+Invoice Verification
+        ->
+Payment
+
+The exact process can differ between companies.
+
+Example:
+
+A company needs 100 laptops.
+
+1. User department raises a Purchase Requisition.
+2. Purchasing team identifies suppliers.
+3. RFQ may be sent to suppliers.
+4. Supplier quotations are evaluated.
+5. Purchase Order is created.
+6. Supplier delivers laptops.
+7. Goods Receipt is posted.
+8. Supplier invoice is received.
+9. Invoice is verified in SAP.
+10. Finance processes payment according to company procedures.
+
+==================================================
+42. DOCUMENT FLOW
+==================================================
+
+SAP MM documents can be connected through the procurement process.
+
+Example:
+
+Purchase Requisition
+        ->
+Purchase Order
+        ->
+Material Document / Goods Receipt
+        ->
+Invoice Document
+
+Purchase Order records purchasing information.
+
+Material Document records a material movement.
+
+Invoice Document records supplier invoice information.
+
+The document flow helps users trace the business transaction from
+procurement through receipt and invoice verification.
+
+==================================================
+43. S/4HANA BUSINESS PARTNER
+==================================================
+
+In SAP S/4HANA, Business Partner is the central object for maintaining
+customers and suppliers.
+
+For supplier-related processes, the Business Partner can have supplier roles
+and relevant purchasing and company-code data.
+
+Common supplier-related BP roles can include:
+- FLVN00 - Supplier (Financial Accounting)
+- FLVN01 - Supplier (Purchasing)
+
+Exact available roles depend on the SAP S/4HANA system configuration.
+
+==================================================
+44. SOURCE DETERMINATION
+==================================================
+
+Source determination helps SAP identify a possible source of supply for a
+material.
+
+Possible sources can include:
+- Purchasing Info Record
+- Source List
+- Contract
+- Scheduling Agreement
+
+Important checks:
+- Material
+- Plant
+- Validity period
+- Supplier
+- Purchasing organization
+- Source-list status
+- Source determination settings
+
+==================================================
+45. PURCHASE REQUISITION VS PURCHASE ORDER
+==================================================
+
+Purchase Requisition:
+An internal request to procure material or service.
+
+Purchase Order:
+A formal purchasing document sent to a supplier.
+
+Main difference:
+
+Purchase Requisition = Internal requirement.
+
+Purchase Order = External purchasing document for the supplier.
+
+==================================================
+46. RFQ VS QUOTATION
+==================================================
+
+RFQ:
+A request sent to suppliers asking them to provide prices and commercial
+terms.
+
+Quotation:
+The supplier's response containing proposed prices and terms.
+
+Typical process:
+
+RFQ -> Supplier Quotation -> Evaluation -> Purchase Order
+
+==================================================
+47. GOODS RECEIPT VS GOODS ISSUE
+==================================================
+
+Goods Receipt:
+Records the receipt of material into stock or another relevant destination.
+
+Goods Issue:
+Records the issue or consumption of material from stock.
+
+Example:
+
+Supplier delivers 50 materials -> Goods Receipt.
+
+Production consumes 10 materials -> Goods Issue.
+
+==================================================
+48. MIGO VS MIRO
+==================================================
+
+MIGO:
+Primarily used for goods movements such as Goods Receipt and Goods Issue.
+
+MIRO:
+Used for entering and verifying incoming supplier invoices.
+
+MIGO deals mainly with material movement.
+
+MIRO deals mainly with invoice verification.
+
+==================================================
+49. COMMON SAP MM INTERVIEW QUESTIONS
+==================================================
+
+Q: What is SAP MM?
+A: SAP MM is the SAP module that supports procurement, inventory
+management, material-related master data and related purchasing processes.
+
+Q: What is a Purchase Requisition?
+A: An internal request for purchasing a material or service.
+
+Q: What is a Purchase Order?
+A: A formal purchasing document issued to a supplier.
+
+Q: What is Goods Receipt?
+A: A posting that records the receipt of material.
+
+Q: What is Invoice Verification?
+A: The process of checking supplier invoices against relevant purchasing and
+goods receipt information.
+
+Q: What is a Movement Type?
+A: A code that controls the processing of a material movement.
+
+Q: What is OBYC?
+A: A configuration area used for automatic account determination.
+
+Q: What is a Source List?
+A: A record that defines permitted or relevant sources of supply for a
+material and plant.
+
+Q: What is a Purchasing Info Record?
+A: It stores purchasing-related information for a material and supplier.
+
+Q: What is an Outline Agreement?
+A: A long-term purchasing agreement between an organization and supplier.
+
+Q: What is a Scheduling Agreement?
+A: A purchasing agreement containing delivery schedules for agreed quantities
+over time.
+
+Q: What is STO?
+A: Stock Transport Order is used to plan and control movement of materials
+between plants or locations according to the configured process.
+
+==================================================
+END OF SAP MM A-Z KNOWLEDGE BASE
+==================================================

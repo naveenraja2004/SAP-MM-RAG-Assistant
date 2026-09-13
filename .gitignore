@@ -1,0 +1,11 @@
+﻿__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.cache/
+chroma_db/
+*_backup.py
+*_backup.txt
+streamlit_log.txt
+app_backup_v2.py

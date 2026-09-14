@@ -726,11 +726,11 @@ TROUBLESHOOTING_DATABASE = {
     "account determination": {
         "problem": "Account determination error during MM transaction.",
         "checks": [
-            "Check OBYC configuration.",
-            "Check valuation class.",
-            "Check transaction key.",
-            "Check chart of accounts.",
-            "Check valuation area and relevant configuration."
+            "1. Open OBYC and check the relevant transaction key.",
+            "2. Check whether the material has the correct valuation class in MM03.",
+            "3. Check the company code and chart of accounts used for the transaction.",
+            "4. Check valuation area and valuation grouping configuration.",
+            "5. Check whether the required G/L account is maintained for the relevant combination.",
         ]
     },
 

@@ -1,4 +1,4 @@
-
+﻿
 import streamlit as st
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -11,11 +11,11 @@ from pathlib import Path
 
 st.set_page_config(
     page_title="SAP MM RAG Assistant",
-    page_icon="🤖",
+    page_icon="ðŸ¤–",
     layout="wide"
 )
 
-st.title("SAP MM RAG Assistant 🤖")
+st.title("SAP MM RAG Assistant ðŸ¤–")
 st.caption("SAP MM Knowledge + RAG + T-Codes + Transaction Guides + Troubleshooting")
 
 # ============================================================
@@ -253,7 +253,7 @@ TRANSACTION_GUIDES = {
         "example": [
             "Vendor: ABC Suppliers",
             "PO: 4500001234",
-            "Invoice Amount: ₹50,000",
+            "Invoice Amount: â‚¹50,000",
             "Invoice posted after verification"
         ],
         "related": ["MIRO", "MIGO", "ME23N"]
@@ -569,9 +569,13 @@ def get_topic_answer(question):
 
     if "p2p" in q or "procure to pay" in q:
         return (
-            "A common SAP MM Procure-to-Pay flow is: "
-            "PR → RFQ → Vendor Selection → PO → Goods Receipt → Invoice → Payment."
-        )
+        "SAP MM Procure-to-Pay (P2P) is the complete purchasing process. "
+        "The main flow is: PR â†’ PO â†’ GR â†’ MIRO. "
+        "1. PR (ME51N): Create a Purchase Requisition for the required material or service. "
+        "2. PO (ME21N): Create a Purchase Order and send it to the selected vendor. "
+        "3. GR (MIGO): Receive the material against the PO, normally using movement type 101. "
+        "4. MIRO: Verify and post the vendor invoice against the purchasing documents."
+    )
 
     return None
 
@@ -613,10 +617,10 @@ def display_tcodes(tcodes):
     if not tcodes:
         return
 
-    st.markdown("### 📌 Related T-Codes")
+    st.markdown("### ðŸ“Œ Related T-Codes")
 
     for tcode, description in tcodes:
-        st.markdown(f"- `{tcode}` — {description}")
+        st.markdown(f"- `{tcode}` â€” {description}")
 
 
 # ============================================================
@@ -698,16 +702,16 @@ def extract_process(question):
 
     q = question.lower()
 
-    if "p2p" in q or "procure to pay" in q:
+    if 'p2p' in q or 'procure to pay' in q:
         return (
-            "PR → RFQ → Vendor Selection → PO → "
-            "Goods Receipt → Invoice Verification → Payment"
+            'PR -> PO -> GR -> MIRO'
         )
+
 
     if "purchase" in q:
         return (
-            "Requirement → PR → RFQ → Vendor Selection → "
-            "PO → Goods Receipt → Invoice Verification"
+            "Requirement â†’ PR â†’ RFQ â†’ Vendor Selection â†’ "
+            "PO â†’ Goods Receipt â†’ Invoice Verification"
         )
 
     return None
@@ -808,9 +812,9 @@ def show_troubleshooting(topic):
     if not data:
         return
 
-    st.error(f"⚠️ {data['problem']}")
+    st.error(f"âš ï¸ {data['problem']}")
 
-    st.markdown("### 🔧 Troubleshooting Checks")
+    st.markdown("### ðŸ”§ Troubleshooting Checks")
 
     for check in data["checks"]:
         st.markdown(f"- {check}")
@@ -979,13 +983,13 @@ def show_transaction_guide(code):
         return
 
     st.markdown(
-        f"## 📘 {code} — {guide['title']}"
+        f"## ðŸ“˜ {code} â€” {guide['title']}"
     )
 
-    st.markdown("### 🎯 Purpose")
+    st.markdown("### ðŸŽ¯ Purpose")
     st.write(guide["purpose"])
 
-    st.markdown("### 📝 Step-by-Step Procedure")
+    st.markdown("### ðŸ“ Step-by-Step Procedure")
 
     for index, step in enumerate(
         guide["steps"],
@@ -995,12 +999,12 @@ def show_transaction_guide(code):
             f"**Step {index}:** {step}"
         )
 
-    st.markdown("### 💼 Practical Example")
+    st.markdown("### ðŸ’¼ Practical Example")
 
     for item in guide["example"]:
         st.markdown(f"- {item}")
 
-    st.markdown("### 📌 Related T-Codes")
+    st.markdown("### ðŸ“Œ Related T-Codes")
 
     for tcode in guide["related"]:
 
@@ -1010,7 +1014,7 @@ def show_transaction_guide(code):
         )
 
         st.markdown(
-            f"- `{tcode}` — {description}"
+            f"- `{tcode}` â€” {description}"
         )
 
     st.success("Answer source: SAP MM Transaction Guide")
@@ -1030,7 +1034,7 @@ def display_rag_answer(results):
 
     best = results[0]
 
-    st.markdown("### 💡 SAP MM Answer")
+    st.markdown("### ðŸ’¡ SAP MM Answer")
 
     st.write(best["text"])
 
@@ -1040,7 +1044,7 @@ def display_rag_answer(results):
 
     if len(results) > 1:
 
-        st.markdown("### 📚 Related Information")
+        st.markdown("### ðŸ“š Related Information")
 
         for result in results[1:]:
 
@@ -1067,7 +1071,7 @@ try:
 
 except Exception as e:
 
-    st.error("❌ Error loading SAP MM RAG system.")
+    st.error("âŒ Error loading SAP MM RAG system.")
     st.exception(e)
 
     st.stop()
@@ -1079,37 +1083,37 @@ except Exception as e:
 
 with st.sidebar:
 
-    st.header("⚙️ System Status")
+    st.header("âš™ï¸ System Status")
 
-    st.success("Embedding Model Loaded ✅")
+    st.success("Embedding Model Loaded âœ…")
 
     if chunks:
         st.success(
-            f"Knowledge Base Loaded: {len(chunks)} chunks ✅"
+            f"Knowledge Base Loaded: {len(chunks)} chunks âœ…"
         )
     else:
         st.warning(
             "Knowledge file is empty or missing."
         )
 
-    st.success("RAG Search Active ✅")
+    st.success("RAG Search Active âœ…")
 
-    st.success("T-Code Detection Active ✅")
+    st.success("T-Code Detection Active âœ…")
 
-    st.success("Movement Type Detection Active ✅")
+    st.success("Movement Type Detection Active âœ…")
 
-    st.success("Troubleshooting Active ✅")
+    st.success("Troubleshooting Active âœ…")
 
-    st.success("Transaction Guides Active ✅")
+    st.success("Transaction Guides Active âœ…")
 
     st.markdown("---")
 
-    st.markdown("### 📌 Supported Transaction Guides")
+    st.markdown("### ðŸ“Œ Supported Transaction Guides")
 
     for code, guide in TRANSACTION_GUIDES.items():
 
         st.write(
-            f"`{code}` — {guide['title']}"
+            f"`{code}` â€” {guide['title']}"
         )
 
 
@@ -1129,7 +1133,7 @@ question = st.text_input(
 # EXAMPLE QUESTIONS
 # ============================================================
 
-st.markdown("### 💡 Example Questions")
+st.markdown("### ðŸ’¡ Example Questions")
 
 example_questions = [
     "What is SAP MM?",
@@ -1176,6 +1180,25 @@ if question:
         st.stop()
 
     # --------------------------------------------------------
+    # PRIORITY: P2P PROCESS QUESTION
+    # --------------------------------------------------------
+    p2p_question = ("p2p" in question.lower() or "procure to pay" in question.lower() or "pr to po to gr to miro" in question.lower() or ("purchase requisition" in question.lower() and "purchase order" in question.lower() and "goods receipt" in question.lower() and "invoice" in question.lower()))
+    if p2p_question:
+        st.markdown("### ?? SAP MM Procure-to-Pay (P2P)")
+        st.write("The complete purchasing flow is: PR ? PO ? GR ? MIRO")
+        st.markdown("**1. PR -> ME51N**")
+        st.write("Create a Purchase Requisition to request the required material or service.")
+        st.markdown("**2. PO -> ME21N**")
+        st.write("Create a Purchase Order and send it to the selected vendor.")
+        st.markdown("**3. GR -> MIGO**")
+        st.write("Receive the material against the Purchase Order. Movement type 101 is commonly used for Goods Receipt.")
+        st.markdown("**4. MIRO — Invoice Verification**")
+        st.write("Verify and post the vendor invoice against the purchasing documents.")
+        st.markdown("### ?? Practical Example")
+        st.write("Production needs 100 units of raw material ? PR is created using ME51N ? PO is created using ME21N ? goods are received using MIGO with movement type 101 ? vendor invoice is verified and posted using MIRO.")
+        display_tcodes([("ME51N", "Create Purchase Requisition"), ("ME21N", "Create Purchase Order"), ("MIGO", "Goods Receipt / Goods Movement"), ("MIRO", "Invoice Verification")])
+        st.stop()
+    # --------------------------------------------------------
     # 1. TRANSACTION GUIDE
     # --------------------------------------------------------
 
@@ -1201,10 +1224,10 @@ if question:
 
         if movement_type:
 
-            st.markdown("### 💡 SAP MM Answer")
+            st.markdown("### ðŸ’¡ SAP MM Answer")
 
             st.write(
-                f"Movement Type **{movement_type}** — "
+                f"Movement Type **{movement_type}** â€” "
                 f"{movement_description}"
             )
 
@@ -1238,7 +1261,7 @@ if question:
                     "between storage locations."
                 )
 
-            st.markdown("### 💼 Practical Example")
+            st.markdown("### ðŸ’¼ Practical Example")
 
             example = generate_practical_example(
                 question
@@ -1263,7 +1286,7 @@ if question:
 
             if troubleshooting_topic:
 
-                st.markdown("### 🔧 SAP MM Troubleshooting")
+                st.markdown("### ðŸ”§ SAP MM Troubleshooting")
 
                 show_troubleshooting(
                     troubleshooting_topic
@@ -1285,7 +1308,7 @@ if question:
 
                 if topic_answer:
 
-                    st.markdown("### 💡 SAP MM Answer")
+                    st.markdown("### ðŸ’¡ SAP MM Answer")
 
                     st.write(topic_answer)
 
@@ -1296,7 +1319,7 @@ if question:
                     if example:
 
                         st.markdown(
-                            "### 💼 Practical Example"
+                            "### ðŸ’¼ Practical Example"
                         )
 
                         st.write(example)
@@ -1308,7 +1331,7 @@ if question:
                     if process:
 
                         st.markdown(
-                            "### 🔄 Process"
+                            "### ðŸ”„ Process"
                         )
 
                         st.info(process)
@@ -1346,7 +1369,7 @@ if question:
                     if example:
 
                         st.markdown(
-                            "### 💼 Practical Example"
+                            "### ðŸ’¼ Practical Example"
                         )
 
                         st.write(example)
@@ -1358,7 +1381,7 @@ if question:
                     if process:
 
                         st.markdown(
-                            "### 🔄 Process"
+                            "### ðŸ”„ Process"
                         )
 
                         st.info(process)
@@ -1378,4 +1401,6 @@ st.caption(
     "SAP MM RAG Assistant | "
     "Knowledge Retrieval + Transaction Guides + Troubleshooting"
 )
+
+
 

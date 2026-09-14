@@ -620,7 +620,7 @@ def display_tcodes(tcodes):
     st.markdown("### 📌 Related T-Codes")
 
     for tcode, description in tcodes:
-        st.markdown(f"- `{tcode}` â€” {description}")
+        st.markdown(f"- `{tcode}` {chr(0x2014)} {description}")
 
 
 # ============================================================
@@ -983,10 +983,10 @@ def show_transaction_guide(code):
         return
 
     st.markdown(
-        f"## ðŸ“˜ {code} â€” {guide['title']}"
+        f"## {chr(0x1F4D8)} {code} {chr(0x2014)} {guide['title']}"
     )
 
-    st.markdown("### ðŸŽ¯ Purpose")
+    st.markdown("### " + chr(0x1F3AF) + " Purpose")
     st.write(guide["purpose"])
 
     st.markdown("### ðŸ“ Step-by-Step Procedure")
@@ -999,7 +999,7 @@ def show_transaction_guide(code):
             f"**Step {index}:** {step}"
         )
 
-    st.markdown("### ðŸ’¼ Practical Example")
+    st.markdown("### " + chr(0x1F4BC) + " Practical Example")
 
     for item in guide["example"]:
         st.markdown(f"- {item}")
@@ -1014,7 +1014,7 @@ def show_transaction_guide(code):
         )
 
         st.markdown(
-            f"- `{tcode}` â€” {description}"
+            f"- `{tcode}` {chr(0x2014)} {description}"
         )
 
     st.success("Answer source: SAP MM Transaction Guide")
@@ -1261,7 +1261,7 @@ if question:
                     "between storage locations."
                 )
 
-            st.markdown("### ðŸ’¼ Practical Example")
+            st.markdown("### " + chr(0x1F4BC) + " Practical Example")
 
             example = generate_practical_example(
                 question
@@ -1319,7 +1319,7 @@ if question:
                     if example:
 
                         st.markdown(
-                            "### ðŸ’¼ Practical Example"
+                            "### " + chr(0x1F4BC) + " Practical Example"
                         )
 
                         st.write(example)
@@ -1369,7 +1369,7 @@ if question:
                     if example:
 
                         st.markdown(
-                            "### ðŸ’¼ Practical Example"
+                            "### " + chr(0x1F4BC) + " Practical Example"
                         )
 
                         st.write(example)

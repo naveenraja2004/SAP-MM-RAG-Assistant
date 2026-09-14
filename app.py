@@ -989,7 +989,7 @@ def show_transaction_guide(code):
     st.markdown("### " + chr(0x1F3AF) + " Purpose")
     st.write(guide["purpose"])
 
-    st.markdown("### ðŸ“ Step-by-Step Procedure")
+    st.markdown("### " + chr(0x1F4DD) + " Step-by-Step Procedure")
 
     for index, step in enumerate(
         guide["steps"],

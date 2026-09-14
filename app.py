@@ -1286,7 +1286,7 @@ if question:
 
             if troubleshooting_topic:
 
-            st.markdown("### " + chr(0x1F527) + " SAP MM Troubleshooting")
+                st.markdown("### " + chr(0x1F527) + " SAP MM Troubleshooting")
 
                 show_troubleshooting(
                     troubleshooting_topic

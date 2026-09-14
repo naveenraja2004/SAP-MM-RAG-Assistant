@@ -11,11 +11,11 @@ from pathlib import Path
 
 st.set_page_config(
     page_title="SAP MM RAG Assistant",
-    page_icon="ðŸ¤–",
+    page_icon="🤖",
     layout="wide"
 )
 
-st.title("SAP MM RAG Assistant ðŸ¤–")
+st.title("SAP MM RAG Assistant 🤖")
 st.caption("SAP MM Knowledge + RAG + T-Codes + Transaction Guides + Troubleshooting")
 
 # ============================================================
@@ -617,7 +617,7 @@ def display_tcodes(tcodes):
     if not tcodes:
         return
 
-    st.markdown("### ðŸ“Œ Related T-Codes")
+    st.markdown("### 📌 Related T-Codes")
 
     for tcode, description in tcodes:
         st.markdown(f"- `{tcode}` â€” {description}")
@@ -1004,7 +1004,7 @@ def show_transaction_guide(code):
     for item in guide["example"]:
         st.markdown(f"- {item}")
 
-    st.markdown("### ðŸ“Œ Related T-Codes")
+    st.markdown("### 📌 Related T-Codes")
 
     for tcode in guide["related"]:
 
@@ -1034,7 +1034,7 @@ def display_rag_answer(results):
 
     best = results[0]
 
-    st.markdown("### ðŸ’¡ SAP MM Answer")
+    st.markdown("### 💡 SAP MM Answer")
 
     st.write(best["text"])
 
@@ -1108,7 +1108,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("### ðŸ“Œ Supported Transaction Guides")
+    st.markdown("### 📌 Supported Transaction Guides")
 
     for code, guide in TRANSACTION_GUIDES.items():
 
@@ -1133,7 +1133,7 @@ question = st.text_input(
 # EXAMPLE QUESTIONS
 # ============================================================
 
-st.markdown("### ðŸ’¡ Example Questions")
+st.markdown("### 💡 Example Questions")
 
 example_questions = [
     "What is SAP MM?",
@@ -1224,7 +1224,7 @@ if question:
 
         if movement_type:
 
-            st.markdown("### ðŸ’¡ SAP MM Answer")
+            st.markdown("### 💡 SAP MM Answer")
 
             st.write(
                 f"Movement Type **{movement_type}** â€” "
@@ -1308,7 +1308,7 @@ if question:
 
                 if topic_answer:
 
-                    st.markdown("### ðŸ’¡ SAP MM Answer")
+                    st.markdown("### 💡 SAP MM Answer")
 
                     st.write(topic_answer)
 

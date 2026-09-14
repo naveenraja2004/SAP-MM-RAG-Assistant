@@ -812,9 +812,9 @@ def show_troubleshooting(topic):
     if not data:
         return
 
-    st.error(f"âš ï¸ {data['problem']}")
+    st.error(chr(0x26A0) + chr(0xFE0F) + " " + data["problem"])
 
-    st.markdown("### ðŸ”§ Troubleshooting Checks")
+    st.markdown("### " + chr(0x1F527) + " Troubleshooting Checks")
 
     for check in data["checks"]:
         st.markdown(f"- {check}")
@@ -1286,7 +1286,7 @@ if question:
 
             if troubleshooting_topic:
 
-                st.markdown("### ðŸ”§ SAP MM Troubleshooting")
+            st.markdown("### " + chr(0x1F527) + " SAP MM Troubleshooting")
 
                 show_troubleshooting(
                     troubleshooting_topic
